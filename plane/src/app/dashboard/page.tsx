@@ -390,9 +390,9 @@ export default function DashboardPage() {
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, ease: EASE }}
-                      className="border-2 border-foreground h-full flex flex-col"
+                      className="border border-foreground/15 rounded-xl h-full flex flex-col"
                     >
-                      <div className="flex items-center justify-between border-b-2 border-foreground px-3 py-1.5">
+                      <div className="flex items-center justify-between border-b border-foreground/10 px-3 py-1.5">
                         <span className="text-[9px] tracking-widest text-muted-foreground uppercase font-mono">
                           pipeline
                         </span>
@@ -539,7 +539,7 @@ export default function DashboardPage() {
                   transition={{ duration: 0.4, ease: EASE }}
                   className="flex flex-col items-center pt-24"
                 >
-                  <div className="border-2 border-foreground/15 px-8 py-10 text-center max-w-sm">
+                  <div className="border border-foreground/15 rounded-xl/15 px-8 py-10 text-center max-w-sm">
                     <span className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground font-mono block mb-3">
                       NO PUBLISHED REPORTS
                     </span>
