@@ -21,6 +21,10 @@ export const projects = pgTable("projects", {
   contracts: jsonb("contracts").$type<{ label: string; address: string; chain?: string }[]>(),
   twitterHandle: varchar("twitter_handle", { length: 100 }),
   governanceSpace: varchar("governance_space", { length: 255 }),
+  description: text("description"),
+  websiteUrl: text("website_url"),
+  videoUrl: text("video_url"),
+  logoUrl: text("logo_url"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
@@ -93,6 +97,20 @@ export const pairwiseComparisons = pgTable(
     index("comp_a_idx").on(t.projectAId),
     index("comp_b_idx").on(t.projectBId),
   ]
+);
+
+// ── API Keys ─────────────────────────────────────────────
+export const apiKeys = pgTable(
+  "api_keys",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: varchar("name", { length: 255 }).notNull(),
+    keyHash: varchar("key_hash", { length: 64 }).notNull().unique(),
+    prefix: varchar("prefix", { length: 8 }).notNull(),
+    lastUsedAt: timestamp("last_used_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  },
+  (t) => [index("api_key_hash_idx").on(t.keyHash)]
 );
 
 // ── Blog Posts ───────────────────────────────────────────

@@ -1,6 +1,6 @@
 # EigenCompute TEE Deployment
 
-This guide deploys the Pandora analysis pipeline inside an EigenLayer Trusted Execution Environment (TEE) via EigenCompute. The pipeline runs with cryptographic integrity guarantees -- the system that evaluates project integrity is itself verifiably honest.
+This guide deploys the Dope Doe analysis pipeline inside an EigenLayer Trusted Execution Environment (TEE) via EigenCompute. The pipeline runs with cryptographic integrity guarantees -- the system that evaluates project integrity is itself verifiably honest.
 
 ## Architecture
 
@@ -66,7 +66,7 @@ ALCHEMY_RPC_URL=           # RPC fallback
 GITHUB_TOKEN=              # GitHub API (development layer)
 DUNE_API_KEY=              # Social/on-chain Dune queries
 DATABASE_URL=              # Neon Postgres (persist evaluations)
-PORT=3001                  # Runner port (default 3001)
+PORT=3001                  # runner port (default 3001)
 NETWORK_PUBLIC=mainnet     # Visible to users in TEE attestation
 ```
 
@@ -82,15 +82,15 @@ OPENROUTER_API_KEY_2=      # Secondary LLM key for fallback
 
 ```bash
 # From the plane/ directory
-docker build --platform linux/amd64 -t pandora-runner .
+docker build --platform linux/amd64 -t dope-runner .
 ```
 
 ### 2. Deploy to EigenCompute
 
 ```bash
 ecloud compute app deploy \
-  --name pandora-runner \
-  --image pandora-runner \
+  --name dope-runner \
+  --image dope-runner \
   --port 3001 \
   --env-file .env
 ```
@@ -100,13 +100,13 @@ ecloud compute app deploy \
 After deploy, EigenCompute will output a public URL for the app, e.g.:
 
 ```
-https://pandora-runner.eigencompute.app
+https://dope-runner.eigencompute.app
 ```
 
 Verify it is live:
 
 ```bash
-curl https://pandora-runner.eigencompute.app/health
+curl https://dope-runner.eigencompute.app/health
 # {"ok":true}
 ```
 
@@ -115,7 +115,7 @@ curl https://pandora-runner.eigencompute.app/health
 Set the runner URL in your Vercel project environment variables:
 
 ```
-EIGENCOMPUTE_RUNNER_URL=https://pandora-runner.eigencompute.app
+EIGENCOMPUTE_RUNNER_URL=https://dope-runner.eigencompute.app
 ```
 
 Redeploy the frontend -- all analysis requests will now proxy through the TEE.
@@ -166,7 +166,7 @@ The API route (`src/app/api/analyze/route.ts`) selects one of three paths at run
 Once deployed, EigenCompute provides an attestation report proving the exact code running in the enclave. Users can verify:
 
 ```bash
-ecloud compute app attest pandora-runner
+ecloud compute app attest dope-runner
 ```
 
 This is the core value proposition: the integrity scoring system itself has verifiable integrity.
@@ -174,15 +174,15 @@ This is the core value proposition: the integrity scoring system itself has veri
 ## Troubleshooting
 
 **Runner returns 500 on `/analyze`**
-- Check all env vars are set: `ecloud compute app env list pandora-runner`
-- Check logs: `ecloud compute app logs pandora-runner`
+- Check all env vars are set: `ecloud compute app env list dope-runner`
+- Check logs: `ecloud compute app logs dope-runner`
 
 **`EIGENCOMPUTE_RUNNER_URL` set but frontend still runs locally**
 - The env var must be set in Vercel (not just `.env.local`) and the deployment restarted
 
 **Docker build fails on non-amd64 machine**
 - The `--platform linux/amd64` flag is required for EigenCompute TEE compatibility
-- On Apple Silicon: `docker buildx build --platform linux/amd64 -t pandora-runner .`
+- On Apple Silicon: `docker buildx build --platform linux/amd64 -t dope-runner .`
 
 **`ecloud billing subscribe` error**
 - EigenCompute requires a credit card on file before deploying

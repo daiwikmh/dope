@@ -28,10 +28,15 @@ export function Navbar() {
           </motion.div>
 
           <div className="hidden md:flex items-center gap-8">
-            {["Analyze", "Methodology", "About"].map((link, i) => (
+            {[
+              { label: "Analyze", href: "/dashboard" },
+              { label: "Docs", href: "/docs" },
+              { label: "Methodology", href: "/dashboard" },
+              { label: "About", href: "/dashboard" },
+            ].map((link, i) => (
               <motion.a
-                key={link}
-                href="http://localhost:3000/dashboard"
+                key={link.label}
+                href={link.href}
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -41,7 +46,7 @@ export function Navbar() {
                 }}
                 className="text-sm font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors duration-200"
               >
-                {link}
+                {link.label}
               </motion.a>
             ))}
           </div>

@@ -1,4 +1,3 @@
-import "./dashboard.css";
 import { Web3Provider } from "@/src/components/shared/web3-provider";
 
 export default function DashboardLayout({

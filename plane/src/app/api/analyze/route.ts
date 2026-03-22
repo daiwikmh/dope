@@ -70,6 +70,10 @@ export async function POST(request: NextRequest) {
         chain: body.chain,
         twitterHandle: body.twitterHandle,
         governanceSpace: body.governanceSpace,
+        description: body.description,
+        websiteUrl: body.websiteUrl,
+        videoUrl: body.videoUrl,
+        logoUrl: body.logoUrl,
       });
       await createEvaluation(project.id, report);
       projectId = project.id;

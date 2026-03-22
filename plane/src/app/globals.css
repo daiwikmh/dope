@@ -155,3 +155,155 @@ body {
   stroke-linecap: round;
   transition: stroke-dashoffset 1.5s ease-out;
 }
+
+/* ── Landing ───────────────────────────────────────────────────────────────── */
+
+.landing-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-card {
+  border: 1px solid hsl(var(--foreground) / 0.15);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.landing-card:hover {
+  border-color: hsl(var(--foreground) / 0.3);
+  transform: translateY(-2px);
+}
+
+.landing-heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.landing-subtext {
+  font-family: var(--font-sans);
+  color: hsl(var(--muted-foreground));
+  line-height: 1.7;
+}
+
+.landing-accent {
+  color: #06b6d4;
+}
+
+.landing-btn {
+  border: 1px solid hsl(var(--foreground));
+  border-radius: var(--radius);
+  padding: 0.75rem 2rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.landing-btn:hover {
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+.landing-btn-accent {
+  background: #06b6d4;
+  color: white;
+  border-color: #06b6d4;
+}
+
+.landing-btn-accent:hover {
+  background: #c2410c;
+  border-color: #c2410c;
+}
+
+.landing-grid-bg {
+  background-image: radial-gradient(circle, hsl(var(--foreground) / 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .landing-grid-bg {
+  background-image: radial-gradient(circle, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
+}
+
+/* ── Dashboard ─────────────────────────────────────────────────────────────── */
+
+.dashboard-card {
+  border: 1px solid hsl(var(--foreground) / 0.15);
+  border-radius: var(--radius);
+  transition: background-color 0.2s ease;
+}
+
+.dashboard-card:hover {
+  background-color: hsl(var(--foreground) / 0.03);
+}
+
+.dashboard-card-header {
+  border-bottom: 1px solid hsl(var(--foreground) / 0.1);
+  padding: 0.5rem 1rem;
+}
+
+.dashboard-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  font-family: var(--font-mono);
+}
+
+.dashboard-body-text {
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: hsl(var(--muted-foreground) / 0.7);
+  line-height: 1.6;
+}
+
+.dashboard-badge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 3px 10px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+}
+
+.dashboard-btn {
+  border: 1px solid hsl(var(--foreground) / 0.2);
+  border-radius: var(--radius);
+  padding: 0.5rem 1.25rem;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.dashboard-btn:hover {
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+.dashboard-btn-primary {
+  background: #06b6d4;
+  color: white;
+  border-color: #06b6d4;
+}
+
+.dashboard-divider {
+  border-top: 1px solid hsl(var(--foreground) / 0.1);
+}
+
+.dashboard-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.dashboard-status-dot.active { background-color: #22c55e; }
+.dashboard-status-dot.warning { background-color: #a855f7; }
+.dashboard-status-dot.error { background-color: #ef4444; }
+.dashboard-status-dot.idle { background-color: hsl(var(--foreground) / 0.1); }

@@ -6,6 +6,7 @@ import {
   activityEvents,
   pairwiseComparisons,
   blogPosts,
+  apiKeys,
 } from "./schema";
 import type { IntegrityReport } from "../schemas";
 
@@ -18,6 +19,10 @@ export async function createProject(input: {
   chain?: string;
   twitterHandle?: string;
   governanceSpace?: string;
+  description?: string;
+  websiteUrl?: string;
+  videoUrl?: string;
+  logoUrl?: string;
 }) {
   const [project] = await db.insert(projects).values(input).returning();
   return project;
@@ -53,6 +58,10 @@ export async function updateProject(
     chain: string;
     twitterHandle: string;
     governanceSpace: string;
+    description: string;
+    websiteUrl: string;
+    videoUrl: string;
+    logoUrl: string;
   }>
 ) {
   const [updated] = await db
@@ -185,6 +194,31 @@ export async function listProjectsWithScores() {
   });
 }
 
+// ── Projects with Reports (for idea validation) ─────────
+
+export async function listProjectsWithReports() {
+  const rows = await db
+    .select({
+      id: projects.id,
+      name: projects.name,
+      integrityScore: evaluations.integrityScore,
+      verdict: evaluations.verdict,
+      executiveSummary: evaluations.executiveSummary,
+      layerScores: evaluations.layerScores,
+      createdAt: evaluations.createdAt,
+    })
+    .from(projects)
+    .innerJoin(evaluations, eq(evaluations.projectId, projects.id))
+    .orderBy(desc(evaluations.createdAt));
+
+  const seen = new Set<string>();
+  return rows.filter((r) => {
+    if (seen.has(r.id)) return false;
+    seen.add(r.id);
+    return true;
+  });
+}
+
 // ── Pairwise Comparisons ─────────────────────────────────
 
 export async function createComparison(input: {
@@ -231,4 +265,46 @@ export async function getComparisonsByProject(projectId: string) {
       sql`${pairwiseComparisons.projectAId} = ${projectId} OR ${pairwiseComparisons.projectBId} = ${projectId}`
     )
     .orderBy(desc(pairwiseComparisons.createdAt));
+}
+
+// ── API Keys ─────────────────────────────────────────────
+
+export async function createApiKey(input: {
+  name: string;
+  keyHash: string;
+  prefix: string;
+}) {
+  const [key] = await db.insert(apiKeys).values(input).returning();
+  return key;
+}
+
+export async function validateApiKey(keyHash: string) {
+  const [key] = await db
+    .select()
+    .from(apiKeys)
+    .where(eq(apiKeys.keyHash, keyHash))
+    .limit(1);
+  if (!key) return null;
+  await db
+    .update(apiKeys)
+    .set({ lastUsedAt: new Date() })
+    .where(eq(apiKeys.id, key.id));
+  return key;
+}
+
+export async function listApiKeys() {
+  return db
+    .select({
+      id: apiKeys.id,
+      name: apiKeys.name,
+      prefix: apiKeys.prefix,
+      lastUsedAt: apiKeys.lastUsedAt,
+      createdAt: apiKeys.createdAt,
+    })
+    .from(apiKeys)
+    .orderBy(desc(apiKeys.createdAt));
+}
+
+export async function deleteApiKey(id: string) {
+  await db.delete(apiKeys).where(eq(apiKeys.id, id));
 }

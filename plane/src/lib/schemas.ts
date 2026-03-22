@@ -65,7 +65,7 @@ export const IntegrityReport = z.object({
 
 export const ProjectInputSchema = z.object({
   projectName: z.string().min(1),
-  githubUrl: z.string().url().optional(),
+  githubUrl: z.string().url(),
   tokenAddress: z.string().optional(),
   chain: z.string().default("ethereum"),
   contracts: z.array(z.object({
@@ -75,6 +75,10 @@ export const ProjectInputSchema = z.object({
   })).optional(),
   twitterHandle: z.string().optional(),
   governanceSpace: z.string().optional(),
+  description: z.string().optional(),
+  websiteUrl: z.string().url().optional(),
+  videoUrl: z.string().url().optional(),
+  logoUrl: z.string().url().optional(),
 });
 
 export const ComparisonResult = z.object({
@@ -99,3 +103,23 @@ export type LayerAnalysis = z.infer<typeof LayerAnalysis>;
 export type IntegrityReport = z.infer<typeof IntegrityReport>;
 export type ProjectInputSchema = z.infer<typeof ProjectInputSchema>;
 export type ComparisonResult = z.infer<typeof ComparisonResult>;
+
+export const IdeaValidationResultSchema = z.object({
+  ideaSummary: z.string(),
+  viabilityScore: z.number().min(0).max(100),
+  similarProjects: z.array(
+    z.object({
+      name: z.string(),
+      integrityScore: z.number(),
+      relevance: z.string(),
+      strengthsToLearnFrom: z.array(z.string()),
+      weaknessesToAvoid: z.array(z.string()),
+    })
+  ),
+  gaps: z.array(z.string()),
+  opportunities: z.array(z.string()),
+  risks: z.array(z.string()),
+  recommendation: z.string(),
+});
+
+export type IdeaValidationResult = z.infer<typeof IdeaValidationResultSchema>;

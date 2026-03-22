@@ -6,12 +6,16 @@ export interface ContractEntry {
 
 export interface ProjectInput {
   projectName: string;
-  githubUrl?: string;
+  githubUrl: string;
   tokenAddress?: string;
   chain?: string;
   contracts?: ContractEntry[];
   twitterHandle?: string;
   governanceSpace?: string;
+  description?: string;
+  websiteUrl?: string;
+  videoUrl?: string;
+  logoUrl?: string;
 }
 
 export interface OnchainContractData {

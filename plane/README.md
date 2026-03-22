@@ -147,6 +147,25 @@ Evaluations extract activity events from raw data -- individual commits from Git
 
 Every endpoint supports `{ "demo": true }` which runs the full pipeline against a pre-built dataset (NexusNet -- an intentionally problematic project with zombie repo, governance capture, and whale concentration). Useful for testing and presentations without burning API credits.
 
+### Skill.md Import
+
+Instead of filling in project details field by field, users can paste a skill.md URL or raw text. An LLM agent extracts project metadata (name, GitHub, contracts, social handles, governance space) and auto-populates the form. Available in the web dashboard (SKILL.MD tab) and in the CLI endpoint via the `skillmd` body field.
+
+### Idea Validation
+
+Users with only a concept (no live project, no contracts) can describe their idea in the Validate tab. The system compares it against all existing evaluated projects and returns a viability score (0-100), similar projects with strengths/weaknesses, market gaps, opportunities, and risks.
+
+### CLI API
+
+Projects can be submitted programmatically via `POST /api/cli/analyze` with an API key header. Keys are generated in Dashboard > Settings > CLI API Keys. The endpoint accepts project fields or raw skill.md content and returns the full IntegrityReport synchronously.
+
+```bash
+curl -X POST https://yourdomain.com/api/cli/analyze \
+  -H "X-API-Key: dd_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "MyProject", "githubUrl": "https://github.com/org/repo"}'
+```
+
 ### Extensible Agent System
 
 Adding a new evaluation layer means creating one file and adding one import line. The orchestrator discovers it automatically. No route changes, no schema migrations, no pipeline rewiring.
@@ -274,4 +293,27 @@ curl -X POST http://localhost:3000/api/analyze \
     "githubUrl": "https://github.com/aave/aave-v4",
     "governanceSpace": "aavedao.eth"
   }'
+```
+
+CLI with API key:
+```bash
+curl -X POST http://localhost:3000/api/cli/analyze \
+  -H "X-API-Key: dd_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "MyProject", "githubUrl": "https://github.com/org/repo"}'
+```
+
+CLI with skill.md:
+```bash
+curl -X POST http://localhost:3000/api/cli/analyze \
+  -H "X-API-Key: dd_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{"skillmd": "# MyProject\n\n## Links\n- GitHub: https://github.com/org/repo"}'
+```
+
+Idea validation:
+```bash
+curl -X POST http://localhost:3000/api/validate-idea \
+  -H "Content-Type: application/json" \
+  -d '{"ideaDescription": "A decentralized compute marketplace for GPU owners"}'
 ```
