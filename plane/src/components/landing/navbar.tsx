@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield } from "lucide-react";
+import Image from "next/image";
 import { ThemeToggle } from "@/src/components/shared/theme-toggle";
 import { EASE } from "@/src/config/constants";
 
@@ -19,9 +19,15 @@ export function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.4 }}
-            className="flex items-center gap-3"
+            className="flex items-center gap-2"
           >
-            <Shield size={18} className="text-[#06b6d4]" />
+            <Image
+              src="/dopelogo.jpg"
+              alt="Dope"
+              width={24}
+              height={24}
+              className="w-6 h-6"
+            />
             <span className="text-sm font-mono tracking-[0.15em] uppercase font-bold">
               DOPE
             </span>

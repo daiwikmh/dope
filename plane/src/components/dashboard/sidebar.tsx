@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Shield,
   LayoutDashboard,
   FolderOpen,
   Bot,
@@ -46,14 +45,18 @@ export function Sidebar({
       {/* Logo */}
       <div className="px-4 py-3 border-b border-foreground/10">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-7 h-7 border border-[#06b6d4]/40 rounded-lg flex items-center justify-center">
-            <Shield size={12} className="text-[#06b6d4]" />
-          </div>
+          <Image
+            src="/dopelogo.jpg"
+            alt="Dope"
+            width={28}
+            height={28}
+            className="w-7 h-7"
+          />
           <div>
             <h1 className="text-[14px] font-mono font-bold tracking-[0.12em] uppercase leading-none">
               DOPE
             </h1>
-          
+
           </div>
         </Link>
       </div>
@@ -142,14 +145,27 @@ export function Sidebar({
       </div>
 
       {/* Powered by */}
-      <div className="px-4 py-3 border-t border-foreground/10 flex items-center justify-center gap-2">
-        <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-foreground/40">
-          powered by
-        </span>
-        <Image src="/octant.png" alt="Octant" width={18} height={18} className="opacity-70" />
-        <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-[#06b6d4]/70 font-bold">
-          octant
-        </span>
+      <div className="px-4 py-3 border-t border-foreground/10">
+        <div className="flex items-center justify-center gap-1.5 mb-2">
+          <span className="text-[9px] font-mono tracking-[0.15em] uppercase text-muted-foreground/40">
+            powered by
+          </span>
+        </div>
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center gap-1.5">
+            <Image src="/octant.png" alt="Octant" width={16} height={16} className="opacity-70" />
+            <span className="text-[8px] font-mono tracking-[0.1em] uppercase text-[#06b6d4]/70 font-bold">
+              octant
+            </span>
+          </div>
+          <span className="text-muted-foreground/20 text-[8px]">+</span>
+          <div className="flex items-center gap-1.5">
+            <Image src="/eigenlogo.jpg" alt="EigenLayer" width={16} height={16} className="opacity-70" />
+            <span className="text-[8px] font-mono tracking-[0.1em] uppercase text-[#06b6d4]/70 font-bold">
+              eigen
+            </span>
+          </div>
+        </div>
       </div>
     </aside>
   );
